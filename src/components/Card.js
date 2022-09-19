@@ -1,20 +1,29 @@
-import {cardsPath} from "../App";
+import {cardsPath} from "../Constants";
+import {useContext} from "react";
+import {CardsContext} from "../GameStart";
 
 export function Card(props) {
-    const card = props.card
+    const snapshot = props.snapshot
+    const provided = props.provided
+    const {cards} = useContext(CardsContext)
+    const card = cards.find((card) => card.id === props.id)
     const src = props.last ? card.src : `${cardsPath}/Card_back.svg`
-    const cardStyle = {
-        position: 'absolute',
-        top: `${props.index * 20}px`,
+    const className = `card-${props.index} ${props.last ? "last" : ""}`
+
+    function getStyle(style, snapshot) {
+        if (!snapshot.isDropAnimating) return style
+        return {
+            ...style,
+            transitionDuration: '0.001s'
+        }
+
     }
-    const className = `card ${props.last ? "last" : ""}`
+
     return (
-        <img draggable={true}
-             onDragStart={(e) => {
-                 e.preventDefault();
-                 console.log('dragStart', e)
-             }}
-             className={className} src={src} alt={card.id}
-             width={card.width} height={card.height} style={cardStyle}/>
+        <li style={getStyle(provided.draggableProps.style, snapshot)} className={className}
+            ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <img src={src} alt={card.id}
+                 width={card.width} height={card.height}/>
+        </li>
     )
 }
