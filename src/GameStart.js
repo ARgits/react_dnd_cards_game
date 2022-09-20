@@ -26,7 +26,7 @@ export function gameStart() {
     //совершаем перемешку и затем сразу совершаем распределение 28 карт по нижним стопкам
     shuffle(cards).slice(0, 28).every(card => card.stack = `${cardsDistribution.shift()}-stack`)
     //остальные карты отправляем на "склад"
-    cards.slice(28).every((card => card.stack = 'store'))
+    cards.slice(28).every((card => card.stack = 'hiddenStore'))
     return cards
 }
 /*Перемешивание карт*/
