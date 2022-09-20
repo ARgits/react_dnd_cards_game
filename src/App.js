@@ -15,8 +15,6 @@ export default function App(props) {
 
     function undoLastDrag(e) {
         if (e.keyCode === 90 && e.ctrlKey && history.length > 0) {
-            console.log(history)
-            console.log(history.at(-1))
             setCards(history.at(-1))
             history.splice(-1)
             setHistory(history)
@@ -24,7 +22,6 @@ export default function App(props) {
     }
 
     document.onkeydown = undoLastDrag
-    console.log(navigator.maxTouchPoints)
     return (
         <DndProvider backend={backend}>
             <CardsContext.Provider value={value}>
