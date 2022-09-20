@@ -5,9 +5,10 @@ import {CONST_CARD_HEIGHT, CONST_CARD_WIDTH, CONST_NUMBER_OF_STACKS,group,card,c
 * @return{Object[]} */
 export function gameStart() {
     //создаём колоду карт, проходя по всем значениям
-    const cards = [].concat(...group.map((gp) => card.map((value) => {
-        const color = gp === 'clubs' || gp === 'hearts' ? "red" : "black"
+    const cards = [].concat(...group.map((gp) => card.map((value,index) => {
+        const color = gp === 'diamonds' || gp === 'hearts' ? "red" : "black"
         return {
+            priority:index,
             group: gp,
             color,
             face: value,
@@ -41,5 +42,7 @@ export function shuffle(array) {
 }
 export const CardsContext = React.createContext({
     cards:gameStart(),
-    setCards:()=>{}
+    setCards:()=>{},
+    history:[],
+    setHistory:()=>{}
 })

@@ -1,5 +1,5 @@
 export const group = ['clubs', 'diamonds', 'spades', 'hearts']
-export const card = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'ace', 'jack', 'king', 'queen']
+export const card = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
 //путь к .svg файлам с картами
 export const cardsPath = `${process.env.PUBLIC_URL}/cards`
 //общее число карт
@@ -12,3 +12,6 @@ export const CONST_CARD_HEIGHT = 200
 export const CONST_CARD_WIDTH = CONST_CARD_HEIGHT / CONST_CARD_HEIGHT_TO_WIDTH_RATIO;
 //кол-во стопок внизу
 export const CONST_NUMBER_OF_STACKS = 7
+export const DraggableTypes = {
+    CARD: 'card'
+}
