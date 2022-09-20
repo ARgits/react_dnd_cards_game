@@ -42,7 +42,7 @@ export default function CardStack(props) {
             for (const item of cardArr) {
                 const itemIndex = newCards.findIndex(c => c.id === item.id)
                 newCards.splice(itemIndex, 1)
-                item.stack = stack
+                item.stack = realStack
             }
             setHistory([...history, cards])
             setCards(newCards.concat(cardArr))
