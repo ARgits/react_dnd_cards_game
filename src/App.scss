@@ -1,0 +1,92 @@
+$card-height: 200px;
+$card-height-to-width: 1.45;
+$card-width: calc($card-height / $card-height-to-width);
+$card-padding: 2px;
+
+
+body {
+  background-color: green;
+}
+
+.App {
+  margin: 1em auto;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.top, .bottom {
+  display: flex;
+  align-items: flex-start;
+}
+
+.bottom div {
+  margin: 10px;
+}
+
+.store {
+  display: flex;
+}
+
+
+.group-stack {
+  display: flex;
+  margin-left: 10em;
+}
+
+hr {
+  display: block;
+  color: black;
+}
+
+.stack {
+  position: relative;
+  list-style: none;
+  padding-left: 0;
+  min-height: $card-height;
+  min-width: $card-width;
+
+  &.final {
+    max-height: $card-height;
+  }
+
+  &.shown {
+    margin-left: 1em;
+
+    &.empty {
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+  }
+}
+
+@for $i from 0 through 58 {
+  .card-#{$i} {
+    padding: $card-padding;
+    border-radius: 7px;
+    position: relative;
+    top: calc(-1 * $i * $card-height + 20px * $i);
+    transition-property: opacity;
+    transition-duration: 0.25s;
+
+    &.final {
+      top: calc(-1 * $i * ($card-height + $card-padding * 4))
+    }
+
+    &.shown:hover {
+      padding: 0;
+      border: $card-padding solid red;
+      cursor: grab;
+
+      &.last {
+        padding: 0;
+        border: $card-padding solid red;
+        box-sizing: border-box;
+      }
+    }
+
+    &.drag {
+      opacity: 0;
+    }
+  }
+}
