@@ -43,18 +43,18 @@ hr {
   position: relative;
   list-style: none;
   padding-left: 0;
-  min-height: $card-height;
-  min-width: $card-width;
+  height: $card-height;
+  width: $card-width;
 
   &.final {
-    max-height: $card-height;
+    height: $card-height;
   }
 
   &.shown {
     margin-left: 1em;
 
     &.empty {
-      border: 1px solid black;
+      border: 2px solid black;
       box-sizing: border-box;
     }
   }
@@ -68,6 +68,7 @@ hr {
     top: calc(-1 * $i * $card-height + 20px * $i);
     transition-property: opacity;
     transition-duration: 0.25s;
+    box-sizing: border-box;
 
     &.final {
       top: calc(-1 * $i * ($card-height + $card-padding * 4))
@@ -81,7 +82,7 @@ hr {
       &.last {
         padding: 0;
         border: $card-padding solid red;
-        box-sizing: border-box;
+
       }
     }
 

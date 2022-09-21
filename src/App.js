@@ -1,13 +1,13 @@
 import './App.scss';
 import React, {useState} from "react";
 import CardStack from "./components/CardStack";
-import {CONST_CARD_HEIGHT, CONST_CARD_WIDTH, CONST_NUMBER_OF_STACKS, group, cardsPath} from "./Constants";
+import {CONST_NUMBER_OF_STACKS, group, } from "./Constants";
 import {CardsContext, gameStart} from "./GameStart";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {TouchBackend} from "react-dnd-touch-backend";
 
-export default function App(props) {
+export default function App() {
     const [cards, setCards] = useState(gameStart())
     const [history, setHistory] = useState([])
     const value = {cards, setCards, history, setHistory}
@@ -23,29 +23,32 @@ export default function App(props) {
 
     document.onkeydown = undoLastDrag
     return (
-        <DndProvider backend={backend}>
-            <CardsContext.Provider value={value}>
-                <div className="App">
-                    <div className="top">
-                        <div className="store">
-                            <CardStack stack={"hiddenStore"}/>
-                            <CardStack stack={'shownStore'}/>
+        <>
+            <DndProvider backend={backend}>
+                <CardsContext.Provider value={value}>
+                    <div className="App">
+                        <div className="top">
+                            <div className="store">
+                                <CardStack stack={"hiddenStore"}/>
+                                <CardStack stack={'shownStore'}/>
+                            </div>
+                            <div className="group-stack">
+                                {group.map((gp, index) => (
+                                    <CardStack key={index} stack={`final-` + (index + 1)}/>
+                                ))}
+                            </div>
                         </div>
-                        <div className="group-stack">
-                            {group.map(gp => (
-                                <CardStack key={gp} stack={gp}/>
+                        <hr/>
+                        <div className="bottom">
+                            {Array(CONST_NUMBER_OF_STACKS).fill(null).map((value, index) => (
+                                <CardStack key={index} stack={`${index + 1}-stack`}/>
                             ))}
                         </div>
                     </div>
-                    <hr/>
-                    <div className="bottom">
-                        {Array(CONST_NUMBER_OF_STACKS).fill(null).map((value, index) => (
-                            <CardStack key={index} stack={`${index + 1}-stack`}/>
-                        ))}
-                    </div>
-                </div>
-            </CardsContext.Provider>
-        </DndProvider>
+                </CardsContext.Provider>
+            </DndProvider>
+            <footer>Version: 1.0.1</footer>
+        </>
     )
 }
 
