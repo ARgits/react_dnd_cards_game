@@ -1,4 +1,11 @@
-export function utilityFunctions(cards, changedCard, newStack) {
+/**
+ * Смена стопки карты при перетаскивании
+ * @param cards {[]} - массив карт
+ * @param changedCard {Object} - изменяемая карта
+ * @param newStack {string} - идентификатор новой стопки
+ * @returns {Object[]|undefined} - новый массив карт
+ */
+export function dropCard(cards, changedCard, newStack) {
     if (newStack.includes("Store") || !changedCard.shown) return
     const final = newStack.includes('final')
     const bottomCardFace = final ? "ace" : "king"
@@ -20,7 +27,6 @@ export function utilityFunctions(cards, changedCard, newStack) {
     const emptyStack = !lastCard && changedCard.face !== bottomCardFace
     const cardPriority = final ? changedCard.priority - lastCard?.priority !== 1 && changedCard.group !== lastCard?.group : lastCard?.priority - changedCard.priority !== 1
     const cardColor = final ? changedCard.group !== lastCard?.group : changedCard.color === lastCard?.color
-    console.log(emptyStack, cardPriority, cardColor, bottomCardFace)
     if (lastCard && (cardColor || cardPriority) || emptyStack) return
 
     const oldCardStackIndex = oldCardStack.findIndex(c => c.id === changedCard.id)
@@ -33,6 +39,12 @@ export function utilityFunctions(cards, changedCard, newStack) {
     return newCards.concat(cardArr)
 }
 
+/**
+ * Клик на верхние левые стопки
+ * @param cards {Object[]} - массив карт
+ * @param stack {string} - какая стопка кликается
+ * @returns {Object[]} - новый массив карт
+ */
 export function clickOnStore(cards, stack) {
     if (stack === "hiddenStore") {
         const newCards = Array.from(cards)
@@ -57,19 +69,17 @@ export function clickOnStore(cards, stack) {
 }
 
 export function doubleClick(cards, card, last) {
-    console.log('DOUBLE CLICK')
+    //addOtherCards(cards)
     //не работает на скрытые карты и карты в "финальных" стопках
     if (!card.shown || card.stack.includes("final") || !last) return
     const newCards = Array.from(cards)
     //находим финальную стопку с нужной мастью
     const finalGroup = newCards.filter((c) => c.stack.includes('final') && c.group === card.group)
     const cardIndex = newCards.findIndex((c) => c.id === card.id)
-    console.log(finalGroup,'final group, double click function')
     //если под эту масть не выбрана ещё стопка
     if (finalGroup.length === 0) {
         if (card.face !== "ace") return
         const index = [1, 2, 3, 4].reduce((previousValue, nextValue) => {
-            console.log(previousValue, nextValue)
             if (newCards.filter((c) => c.stack === `final-${previousValue}`).length === 0)
                 return previousValue
             else return nextValue
@@ -82,4 +92,10 @@ export function doubleClick(cards, card, last) {
     }
     newCards.splice(cardIndex, 1)
     return [...newCards, card]
+}
+//TODO:добавить автоматическкую сортировку
+function addOtherCards(cards) {
+    const newCards = Array.from(cards)
+    const [first, second, third, fourth] = [1, 2, 3, 4].map(num => newCards.filter(c => c.stack === `final-${num}`))
+    const shownNotFinalCards = newCards.filter(c => c.shown && !c.stack.includes('final'))
 }

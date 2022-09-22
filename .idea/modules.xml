@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/supabase_nextjs_realtime.iml" filepath="$PROJECT_DIR$/.idea/supabase_nextjs_realtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/react-cards.iml" filepath="$PROJECT_DIR$/.idea/react-cards.iml" />
     </modules>
   </component>
 </project>

@@ -4,7 +4,7 @@ import {useContext} from "react";
 import {CardsContext} from "../GameStart";
 import {useDrop} from "react-dnd";
 import {DraggableTypes} from "../Constants";
-import {utilityFunctions, clickOnStore} from "../utilityFunctions";
+import {dropCard, clickOnStore} from "../utilityFunctions";
 
 
 export default function CardStack(props) {
@@ -13,7 +13,7 @@ export default function CardStack(props) {
     const cardsFiltered = stack ? cards.filter((card) => card.stack === stack) : []
     const [, drop] = useDrop(() => ({
         accept: DraggableTypes.CARD, drop: (card) => {
-            const newCards = utilityFunctions(cards, card, stack)
+            const newCards = dropCard(cards, card, stack)
             if (newCards) {
                 setHistory([...history, cards])
                 setCards(newCards)

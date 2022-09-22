@@ -1,11 +1,30 @@
 import './App.scss';
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import CardStack from "./components/CardStack";
-import {CONST_NUMBER_OF_STACKS, group, } from "./Constants";
+import {CONST_NUMBER_OF_STACKS, group,} from "./Constants";
 import {CardsContext, gameStart} from "./GameStart";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {TouchBackend} from "react-dnd-touch-backend";
+import {usePreview} from "react-dnd-preview";
+
+const MyPreview = () => {
+    const {display,  item, style} = usePreview()
+    const {cards} = useContext(CardsContext)
+    if (!display) {
+        return null
+    }
+    const draggedCards = cards.filter((c) => c.stack === item.stack && c.priority <= item.priority && c.shown)
+    return (
+        <ul className="item-list__item preview" style={style}>
+            {draggedCards.map((c, index) => (
+                <li key={index} className={`card-${index}`}>
+                    <img src={c.src} alt={c.id} width={c.width} height={c.height}/>
+                </li>
+            ))}
+        </ul>
+    )
+}
 
 export default function App() {
     const [cards, setCards] = useState(gameStart())
@@ -13,7 +32,7 @@ export default function App() {
     const value = {cards, setCards, history, setHistory}
     const backend = navigator.maxTouchPoints === 0 ? HTML5Backend : TouchBackend
 
-    function undoLastDrag(e) {
+    /*function undoLastDrag(e) {
         if (e.keyCode === 90 && e.ctrlKey && history.length > 0) {
             setCards(history.at(-1))
             history.splice(-1)
@@ -21,7 +40,7 @@ export default function App() {
         }
     }
 
-    document.onkeydown = undoLastDrag
+    document.onkeydown = undoLastDrag*/
     return (
         <>
             <DndProvider backend={backend}>
@@ -45,9 +64,10 @@ export default function App() {
                             ))}
                         </div>
                     </div>
+                    <MyPreview/>
                 </CardsContext.Provider>
             </DndProvider>
-            <footer>Version: 1.0.1</footer>
+            <footer>Version: {process.env.REACT_APP_VERSION}</footer>
         </>
     )
 }
