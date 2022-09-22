@@ -9,12 +9,12 @@ import {TouchBackend} from "react-dnd-touch-backend";
 import {usePreview} from "react-dnd-preview";
 
 const MyPreview = () => {
-    const {display,  item, style} = usePreview()
+    const {display, item, style} = usePreview()
     const {cards} = useContext(CardsContext)
     if (!display) {
         return null
     }
-    const draggedCards = cards.filter((c) => c.stack === item.stack && c.priority <= item.priority && c.shown)
+    const draggedCards = !item.stack.includes('Store') ? cards.filter((c) => c.stack === item.stack && c.priority <= item.priority && c.shown) : [item]
     return (
         <ul className="item-list__item preview" style={style}>
             {draggedCards.map((c, index) => (
@@ -31,6 +31,8 @@ export default function App() {
     const [history, setHistory] = useState([])
     const value = {cards, setCards, history, setHistory}
     const backend = navigator.maxTouchPoints === 0 ? HTML5Backend : TouchBackend
+    const version = require('../package.json').version
+    console.log(version)
 
     /*function undoLastDrag(e) {
         if (e.keyCode === 90 && e.ctrlKey && history.length > 0) {
@@ -67,7 +69,7 @@ export default function App() {
                     <MyPreview/>
                 </CardsContext.Provider>
             </DndProvider>
-            <footer>Version: {process.env.REACT_APP_VERSION}</footer>
+            <footer>Version: {version}</footer>
         </>
     )
 }
