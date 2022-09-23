@@ -1,6 +1,6 @@
 {
   "name": "supabase_nextjs_realtime",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",

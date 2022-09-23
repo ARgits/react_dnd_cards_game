@@ -15,13 +15,15 @@ export function Card(props) {
         type: DraggableTypes.CARD,
         item: card,
         isDragging: (monitor) => {
-            if (monitor.getItem().stack !== card.stack || monitor.getItem().priority < card.priority || !card.shown) return
+            const monitorCard = monitor.getItem()
+            if (monitorCard.stack !== card.stack || monitorCard.priority < card.priority || !card.shown) return
+            if ((monitorCard.stack === 'shownStore'||monitorCard.stack.includes('final')) && !props.last) return
             /*const stack = monitor.getItem().stack
             const stackArr = cards.filter(c => c.stack === card.stack)
             const cardIndex = stackArr.findIndex(c => c.id === card.id)
             console.log(stackArr.filter((c, index) => index >= cardIndex))
             return stackArr.filter((c, index) => index >= cardIndex)*/
-            return cards.filter(c => c.stack === monitor.getItem().stack && c.shown && c.priority <= monitor.getItem().priority)
+            return cards.filter(c => c.stack === monitorCard.stack && c.shown && c.priority <= monitorCard.priority)
         },
         collect: monitor => ({
             isDragging: !!monitor.isDragging()
